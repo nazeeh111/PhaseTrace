@@ -1,0 +1,11 @@
+# Exclude the large number of traces.
+**/train*/*.npy
+**/attack*/*.npy
+**/key*.txt
+**/pt*.txt
+# Exclude sentinel files.
+**/.datasetinit
+**/.dockerinit
+# Exclude git-annex related files.
+Makefile
+make.d

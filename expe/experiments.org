@@ -1,0 +1,211 @@
+#+TITLE: Experimentation laboratory
+#+SETUPFILE: https://raw.githubusercontent.com/pierreay/orgcss/master/orgcss.setup
+
+* Experiments
+
+The following experiments are considered as dirty and saved as backup only.
+They were taken from the old =bluescream= repository:
+- [[file:240116][240116]]
+- [[file:240118][240118]]
+- [[file:240119][240119]]
+- [[file:240130][240130]]
+- [[file:240131][240131]]
+- [[file:240201][240201]]
+
+** [2024-01-30 mar.] Instantaneous phase visualization
+:PROPERTIES:
+:DIR:      2024-01-30_instant_phase_viz
+:END:
+
+- Based on ::
+  - Recording from Screaming Channels labeled =240130_carrier_or_mod_soft_or_hard=.
+- Goals ::
+  - Compare the instantaneous phase of signals recorded during TX on (carrier only), AES software, AES hardware.
+- Results ::
+  - Significant deviations between signals.
+
+** [2024-02-06 mar.] Instrument a firmware and compare leakage among frequencies in amplitude and phase
+:PROPERTIES:
+:DIR:      2024-02-06_firmware-instrumentation-for-phase-rot-leak
+:END:
+
+- Goals ::
+  1. Compare the leakage in amplitude and phase rotation to see if we can see the signal.
+- Methods ::
+  1. Instrument the firmware with a recognizable pattern (TX Off, TX Carrier,
+     AES Soft ECB, AES Hard ECB without counter, AES Hard ECB with interrupts,
+     AES Hard CCM).
+  2. Record at multiple frequencies and sampling rates. Analyze the received
+     signal in bot amplitude and phase rotation.
+- Results ::
+  1. The leakage in the phase is already present in the baseband signal
+     modulated around the clocks of the CPU. Hence, it may invalidate the
+     theory that the SC phase leakage is produced by voltage variations of the
+     VCO of the carrier.
+- Files ::
+  - FF is collected using an antenna in an anechoic box.
+  - NF is collected using a NF probe out of the anechoic box.
+  - [[attachment:firmware_loop.c]] is an extract of the firmware to see the
+    pattern, see firmware repo and tag for code.
+
+** [2024-02-07 mer.] Comparison between leakage in amplitude and phase
+:PROPERTIES:
+:DIR:      2024-02-07_leakage_comparison_amplitude_phase_rot
+:END:
+
+- Based on a recording with a Screaming Channels firmware.
+- Random plot without scripts of SC leakage in amplitude and in phase rotation
+  at 2.530 GHz during a BLE communication (with GFSK).
+
+** [2024-03-14 jeu.] Frequency estimation                               :plot:
+:PROPERTIES:
+:DIR:      24-03-14_freq-estimation
+:ID:       d14ec7c7-c990-4bea-b022-0d507a904631
+:END:
+
+- Source ::
+  - Phase rotation trace.
+- Results ::
+  - [[file:24-03-14_freq-estimation/psd.pdf]]
+  - [[file:24-03-14_freq-estimation/specgram.pdf]]
+  - Major frequency components of 5.5 MHz, 6.5 MHz, and 11.5 MHz.
+  - High-pass filtered.
+
+** [2024-03-19 mar.] Phasor plot                                        :plot:
+:PROPERTIES:
+:DIR:      24-03-19_phasor-plot
+:ID:       336a19e9-d4e3-492d-bba4-f626b02fd51a
+:END:
+
+- Source ::
+  - Traces of AES from the =240305_custom_firmware_phase_eval_iq= [[id:98437a5b-5d86-4097-96b1-9a069fd30a79][datasets]].
+- Goal :: Plot the I/Q and/or the amplitude/phase rotation using phasor
+  representation (2D without time and 3D with time).
+- Results ::
+  - 2D using representing time as color:
+    - [[attachment:plot_polar_amp;phr.pdf]] (best plot)
+    - [[attachment:plot_polar_abs(iq_augmented);angle(iq_augmented).pdf]]
+    - [[attachment:plot_polar_abs(iq);angle(iq).pdf]]
+    - [[attachment:plot_rectangular_amp;phr.pdf]]
+    - [[attachment:plot_rectangular_iq_augmented.real;iq_augmented.imag.pdf]]
+    - [[attachment:plot_rectangular_iq.real;iq.imag.pdf]]
+  - 3D:
+    - [[attachment:plot_polar_3d_amp;phr.pdf]]
+    - [[attachment:plot_polar_3d_iq.real;iq.imag.pdf]]
+    - [[attachment:plot_polar_3d_iq_augmnented.real;iq_augmented.imag.pdf]]
+
+** [2024-03-21 jeu.] IQ problem                                         :issue:
+:PROPERTIES:
+:DIR:      24-03-21_iq-issue
+:ID:       3fdf41e9-a9b9-4728-aceb-8a065e4e37f3
+:END:
+
+- Issue :: We have I and Q stored while we also have the amplitude and the
+  phase rotation stored. While computing the amplitude and the phase rotation
+  from the stored IQ, we don't get the same values as the stored amplitude and
+  the phase rotation. See [[attachment:plot.py]].
+- Source :: Storage ? Complex IQ reconstruction from integer IQ ? Polar to
+  rectangular or Rectangular to polar conversion problem ?
+
+** [2024-03-21 jeu.] Recombination using major votes              :data:plot:
+:PROPERTIES:
+:ID:       e54d1023-f624-4b2b-9fca-37e153b864f5
+:DIR:      24-03-21_recombination-vote
+:END:
+
+- Goal :: Test the major vote mechanism to recombine information from more than
+  2 channels.
+- Vote method :: Vertical 4-way major vote at bit level for best subkey guess.
+- Measure method :: Use the hamming distance between real key and best key.
+- Results :: Seems to always perform better than amplitude, but not always
+  better than the better (unpredictable) attack among the 4.
+- Plot result :: See [[attachment:attack_results.pdf]].
+
+** [2024-04-09 mar.] Recombination using correlation coefficient  :data:plot:
+:PROPERTIES:
+:ID:       50f1a6fb-d65f-4b8c-af62-5895a4b93635
+:DIR:      24-04-09_recombination-corr
+:END:
+
+- Goal :: Test the "merging" of correlation coefficient given by 2 channels.
+- Recombination Method :: Inspired from POI recombination, use addition or
+  multiplication to combine result of correlation coefficient.
+- Measure method :: Calculating key rank && Measuring hamming distance.
+- Results :: Recombination is always better and finally lead to a key rank
+  smaller of on order of magnitude of 10. This method is also better than major
+  votes as it 1) easily allows to perform key enumeration and estimation 2)
+  leads to smaller intermediate hamming distances.
+  - [[attachment:plots/attack_results_kr.pdf]]
+  
+** [2024-04-11 jeu.] Multiple POIs in same channel with addition  :data:plot:
+:PROPERTIES:
+:ID:       39bfeed2-5394-4b1f-9442-8b947193412d
+:DIR:      24-04-11_poi-addition
+:END:
+
+- Goal :: As [[id:50f1a6fb-d65f-4b8c-af62-5895a4b93635][[2024-04-09 mar.] Recombination using correlation coefficient]]
+  suggest, it is better to use addition instead of multiplication. Want to test
+  weather using multiple POIs from same channel (amplitude) gives better
+  results using addition instead of multiplication.
+- Results :: POIs combination using addition is better than multiplication
+  (look at logs files in [[attachment:logs/]]) but not better than no POI
+  combination in our setup.
+
+** [2024-07-10 mer.] Observation of jitter translated to phase rotation :data:plot:setup:
+:PROPERTIES:
+:ID:       9702fa0e-c8a6-4728-b50c-7dda867291c5
+:DIR:      24-07-10_jitter-to-phr
+:END:
+
+*First experiment*
+
+We use an STM32 glitched on digital domain by a ChipWhisperer every 50 ms.
+
+#+CAPTION: STM32F1 probed and puting the system clock on a GPIO
+[[file:24-07-10_jitter-to-phr/expe1/PXL_20240710_174349489.jpg]]
+
+#+CAPTION: AirSpy measuring the NF probe (amplitude & phase rotation) + Oscilloscope measuring the clock jitter
+[[file:24-07-10_jitter-to-phr/expe1/PXL_20240710_174358146.jpg]]
+
+#+CAPTION: Oscilloscope describing clock frequency, period, and jitter value
+[[file:24-07-10_jitter-to-phr/expe1/PXL_20240710_174453755.jpg]]
+
+On the oscilloscope, we can see the effect of the glitch translated to an amplitude noise and jitter.
+
+On the radio, running:
+
+#+begin_src bash :eval never
+soapyrx --loglevel INFO --config ~/git/soapyrx/examples/example.toml record --duration=0.5 --no-agc --gain 33 64e6 10e6 --cut --plot --no-live --save-sig=/home/drac/pro_tmp/expe_sig.npy --save-plot=/home/drac/pro_tmp/expe_plot.png
+#+end_src
+
+We got, for both amplitude and phase rotation, the observation of the glitch every 50 ms.
+
+#+CAPTION: Amplitude (left) and phase rotation (right) using AirSpy
+[[file:24-07-10_jitter-to-phr/expe1/expe_plot.png]]
+
+*Second experiment*
+
+By using the period value measured using the oscilloscope and the precise
+jitter value (around 250 ps) for one precise glitch, we computed that it should
+be translated to a 0.15 radian phase rotation. It corresponds to what we
+measured.
+
+#+CAPTION: 0.15 radian phase rotation due to glitch
+[[file:24-07-10_jitter-to-phr/expe2/expe_plot.png]]
+
+#+CAPTION: A glitch which first (falling edge) decrease period will increase the phase rotation, and vice-versa.
+[[file:24-07-10_jitter-to-phr/expe2/expe_plot_zoom.png]]
+
+** [2024-07-14 dim.] Plot of all phase functions (Wrapped, Unwrapped, Shift) :data:plot:
+:PROPERTIES:
+:DIR:      24-07-14_phase-plot
+:ID:       b0028aa5-7c13-4d40-bd9d-20e14b766f94
+:END:
+
+- Result :: [[attachment:plot.pdf]]
+
+* Bibliography
+
+#+print_bibliography:
+
+* Footnotes
