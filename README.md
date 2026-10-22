@@ -1,10 +1,10 @@
 # PhaseTrace
 
-**Development history:** Developed locally using Git before publication. These projects were published to GitHub together, so similar upload dates do not indicate when development began.
-
-![PhaseTrace](docs/identity.svg)
-
 Experiment scripts, figures and dataset recipes for analyzing phase-modulated electromagnetic measurements.
+
+![Stored nRF52 phase-rotation traces from the reproduction guide](docs/2025-01-23_tches-artifact/gfx/24-07-04_nrf52-ref_attack_filt_lh1e6_0_phr.png)
+
+The plotted, aligned phase-rotation traces are a retained figure from the [nRF52 artifact guide](docs/2025-01-23_tches-artifact/README.md), not a new experimental run. The guide explains the measured input, processing and attack workflow; complete reproduction needs its external datasets and environment.
 
 ## Explore the workspace
 
@@ -17,6 +17,8 @@ Experiment scripts, figures and dataset recipes for analyzing phase-modulated el
 | [Reproduction guide](docs/2025-01-23_tches-artifact/README.md) | Existing container workflow and dataset references |
 
 ## Source checkout
+
+Developed locally using Git before publication. The GitHub upload date does not indicate when this work began.
 
 ```sh
 git clone https://github.com/nazeeh111/PhaseTrace.git
