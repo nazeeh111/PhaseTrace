@@ -30,7 +30,7 @@ sig = sig2
 for i in range(0, len(sig) - n, n):
   factor += [1000]*n if np.mean(np.abs(sig[i:i+n]))>1000 else [0]*n
   if np.mean(np.abs(sig[i:i+n]))>1000:
-    signal = sig[i:i+n] if signal == [] else np.concatenate((signal, sig[i:i+n]))
+    signal = sig[i:i+n] if len(signal) == 0 else np.concatenate((signal, sig[i:i+n]))
   else:
     if len(signal) > 0:
       signals.append(signal)
@@ -75,7 +75,7 @@ sig = sig1
 for i in range(0, len(sig) - n, n):
   factor += [1000]*n if np.mean(np.abs(sig[i:i+n]))>1000 else [0]*n
   if np.mean(np.abs(sig[i:i+n]))>1000:
-    signal = sig[i:i+n] if signal == [] else np.concatenate((signal, sig[i:i+n]))
+    signal = sig[i:i+n] if len(signal) == 0 else np.concatenate((signal, sig[i:i+n]))
   else:
     if len(signal) > 0:
       signals.append(signal)
