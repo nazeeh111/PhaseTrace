@@ -236,7 +236,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, set_power,
 
     # Generate the plaintexts
     if fixed_vs_fixed:
-        plaintexts = ['\x00'*16 for _trace in range(num_points)]
+        plaintexts = [b'\x00'*16 for _trace in range(num_points)]
     else:
         plaintexts = [os.urandom(16)
                     for _trace in range(1 if CONFIG["fw"]["fixed_plaintext"] else num_points)]
@@ -247,7 +247,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, set_power,
     # Generate the key(s)
     if firmware_mode.have_keys:
         if fixed_vs_fixed:
-            keys = ['\x00'*16 if i%2==0 else '\x30'*16 for i in range(num_points)]
+            keys = [b'\x00'*16 if i%2==0 else b'\x30'*16 for i in range(num_points)]
         else:
             keys = [os.urandom(16)
                     for _key in range(1 if fixed_key else num_points)]
