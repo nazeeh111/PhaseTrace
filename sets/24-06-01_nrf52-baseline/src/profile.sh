@@ -68,7 +68,7 @@ function profile() {
 # * Script
 
 # Ensure SCAFF version.
-checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
+(git_checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}")
 
 for comp in "${COMP_LIST[@]}"; do
     for num_traces in "${NUM_TRACES_LIST[@]}"; do
