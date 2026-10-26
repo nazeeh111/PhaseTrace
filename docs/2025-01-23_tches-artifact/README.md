@@ -1,3 +1,5 @@
+> Retained PhaseSCA reproduction guide. First-person references to the paper and experiments describe the original researchers; see [source and terms](../../NOTICE.md).
+
 # Abstract
 
 This artifact consists of software and data to reproduce the main results of section 7.2 of our paper.

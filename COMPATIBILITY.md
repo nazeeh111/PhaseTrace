@@ -2,7 +2,7 @@
 
 ## Change boundary
 
-The initial presentation revision updated documentation entry points and source comments while preserving executable behavior. A later correction adds the omitted `lh1e6` argument to the first training-filter call in `sets/24-07-04_nrf52-ref/src/process.sh`. That selector already appears in the original training reproduction guide and downstream environment. Filter implementations, other recipe commands, filenames and data formats are unchanged. First-party licensing is MIT under nazeeh111. Separate bundled-component terms and external submodule notices are retained.
+The initial presentation revision updated documentation entry points and source comments while preserving executable behavior. A later correction adds the omitted `lh1e6` argument to the first training-filter call in `sets/24-07-04_nrf52-ref/src/process.sh`. That selector already appears in the original training reproduction guide and downstream environment. Filter implementations, other recipe commands, filenames and data formats are unchanged. Retained research source and the artifact guide use GPL-3.0. The 2026-10-25 license correction restores the upstream license text; MIT covers separately authored presentation and checks only. See [source scope](NOTICE.md). External submodule notices remain applicable.
 
 ## Verified locally
 
