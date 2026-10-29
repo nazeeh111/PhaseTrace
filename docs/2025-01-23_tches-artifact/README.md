@@ -1,4 +1,4 @@
-> Retained PhaseSCA reproduction guide. First-person references to the paper and experiments describe the original researchers; see [source and terms](../../NOTICE.md).
+> Retained PhaseSCA reproduction guide. First-person references to the paper and experiments describe the original researchers; see the [GPL license](../../LICENSE).
 
 # Abstract
 

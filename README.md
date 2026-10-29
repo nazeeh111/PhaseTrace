@@ -62,4 +62,4 @@ The reproduction guide preserves its `phasesca` container and directory names fo
 
 ## Source terms
 
-Retained research source and the artifact guide use [GPL-3.0](LICENSE). Separately authored presentation and checks use [MIT](LICENSE-branding). [Source scope](NOTICE.md) distinguishes the additions; external modules retain their own terms.
+Retained research source and the artifact guide use [GPL-3.0](LICENSE). Separately authored presentation and checks use [MIT](LICENSE-branding). External modules retain their own terms.
